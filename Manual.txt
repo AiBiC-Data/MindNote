@@ -69,3 +69,69 @@ urls.py에서 'diary/' URL 패턴을 주석 해제하고, 이를 참고해서 vi
         <!-- 여기까지 반복됩니다. -->
 </ul>
 개발 서버를 켜고 '/diary/'로 들어가서 일기 내용들이 나오는지 확인해 주세요.
+
+**
+감정 일기 상세페이지
+이번에는 각각의 감정 일기를 클릭 했을 때 보이는 상세 페이지를 구현해 보도록 하겠습니다. 아래를 참고해서 페이지를 작성해 주세요.
+urls.py에서 상세 페이지에 해당하는 URL 패턴을 주석 해제해 주세요.
+page_detail 뷰를 작성해 주세요.
+뷰 이름은 'page_detail'로 합니다.
+objects.get()을 이용해서 하나의 Page 데이터를 조회해 주세요.
+page_detatil 뷰는 'page_detail.html' 템플릿을 랜더링해서 결과로 돌려줍니다.
+조회한 Page 데이터를 'object'라는 키워드로 page_detail 템플릿에 전달합니다.
+아래를 복사하여 page_detail.html을 작성해 주세요.
+<!-- page_detail.html -->
+<div class="notetext">
+    <div class="text-box">
+        <h2><!-- 제목--></h2>
+        <div class="state">
+            <p>감정 상태</p>
+            <span><!-- 감정 상태 --></span>
+        </div>
+        <div class="score">
+            <p>감정 점수</p>
+            <span><!-- 감정 점수 -->점</span>
+        </div> 
+        <div class="date">
+            <span><!-- 작성 날짜 중 '일(day)'--></span>
+            <div class="month-year">
+                <p class="month"><!-- 작성 날짜 중 '월(Month)'--></p>
+                <p class="year"><!-- 작성 날짜 중 '년(year)'--></p>
+            </div>
+        </div>
+        <div class="detail"><!-- 일기 내용 --></div>
+        <div class="notetext-btn">
+            <ul>
+                <li><a href="#">삭제하기</a></li>
+                <li><a href="#">수정하기</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+일기 내용은 줄 바꿈이 정상적으로 적용 되도록 템플릿 필터 'linebreaksbr'을 적용해주세요.
+아래를 참고하여 page_list 템플릿에 각각의 Page를 눌렀을 때 상세 글로 이동하도록 작성해 주세요.
+<h2>일기 목록 페이지</h2>
+<ul>
+    {% for obj in object_list %}
+    <li>
+                <a href="상세 글로 이동할 URL"> <!-- 클릭 시 이동하기 위한 a 태그 -->
+            <div class="date">
+                <span>{{obj.dt_created|date:"d"}}</span>
+                <p>{{obj.dt_created|date:"M"}}</p>
+            </div>
+            <h2>{{obj.title}}</h2>
+            <div class="score">
+                <p>감정점수</p>
+                <span>{{obj.score}}점</span>
+            </div>
+                </a>
+    </li>
+    {% endfor %}
+</ul>
+개발 서버를 켜고 /diary/로 이동한 후 각각의 일기 글을 눌러서 상세 보기로 잘 이동하는지 확인합니다.
+
+
+
+
+
+
