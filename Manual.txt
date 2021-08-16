@@ -4,6 +4,7 @@
 일기장의 시간을 여러분의 시간과 맞춰주세요. (시간대 설정, 'Asia/Seoul')
 diary앱을 프로젝트 설정에 추가 해주세요.
 Django의 기본 데이터 구조를 데이터베이스에 반영해 주세요.
+-> python manage.py migrate
 프로젝트를 실행하고 정상적으로 실행이 되는지 확인해 주세요.
 
 **
@@ -20,5 +21,51 @@ diary/page/정수형/delete/로 들어오면 각각의 일기를 삭제하는 'p
 개발 서버를 켜고 에러 없이 동작하는지 확인해 주세요.
 
 **
+감정 일기 모델(Model) 작성하기
+아래를 참고해서 models.py에 모델(Model)을 작성해 주세요.
+
+models.py에 'Page' 모델 클래스를 정의해주세요.
+Page 클래스에는 아래와 같은 필드가 필요합니다.
+제목(title), 문자열, 길이 제한 100자
+내용(content), 문자열, 길이 제한 없음
+감정 상태(feeling), 문자열, 길이 제한 80자
+감정 점수(score), 정수형
+작성일(dt_created), 날짜
+Page 모델을 문자열로 표시할 때 사용되는 str 메소드를 정의해 주세요
+admin.py에 방금 작성한 Page 모델을 등록해 주세요.
+데이터베이스에 변경 사항을 반영해 주세요.
+-> python manage.py makemigrations
+-> python manage.py migrate
 
 
+**
+일기 모아보기
+아래를 참고해서 일기 모아보기 페이지를 완성해 주세요.
+관리자 계정(Superuser)를 생성하고 Django 관리자 도구를 이용해 Page 데이터를 자유롭게 작성해 주세요.
+-> python manage.py createsuperuser
+diary 앱 아래에 알맞은 디렉토리 구조를 만들고, 아래와 같은 page_list.html 파일을 생성해주세요.
+<!-- page_list.html -->
+<h2>일기 목록 페이지</h2>
+urls.py에서 'diary/' URL 패턴을 주석 해제하고, 이를 참고해서 views.py에 page_list 뷰를 정의해 주세요. page_list 뷰는 요청을 받으면 2번에서 만들었던 page_list.html 템플릿을 렌더링 해서 돌려주는 뷰입니다.
+서버를 실행하고 diary/ 로 이동해서 아래처럼 잘 나오는지 확인합니다.
+이제 모든 데이터를 가져와서 보여주도록 작성해봅시다. 데이터베이스로부터 모든 Page 데이터를 가져와서 'object_list'라는 키워드로 page_list 템플릿에 전달하도록 page_list뷰를 변경해 주세요.
+아래를 참고해서 모든 Page 데이터를 출력하도록 page_list.html을 작성해 주세요. 반복 되는 부분을 작성하는 것이 핵심입니다.
+<!-- page_list.html -->
+<h2>일기 목록 페이지</h2>
+
+<ul>
+        <!-- 하나의 글은 여기서부터 -->
+    <li>
+        <div class="date">
+            <span><!--날짜 중 '일'--></span>
+                        <p><!--날짜 중 '월'--></p>
+        </div>
+        <h2><!--제목--></h2>
+        <div class="score">
+            <p>감정점수</p>
+            <span><!--감정점수-->점</span>
+        </div>
+    </li>
+        <!-- 여기까지 반복됩니다. -->
+</ul>
+개발 서버를 켜고 '/diary/'로 들어가서 일기 내용들이 나오는지 확인해 주세요.
