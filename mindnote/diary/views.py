@@ -9,3 +9,6 @@ def page_list(request):
 def page_detail(request, page_id):
     object = Page.objects.get(id=page_id)
     return render(request, 'diary/page_detail.html', {'object': object})
+
+def info(request):
+    return render(request, 'diary/info.html')
