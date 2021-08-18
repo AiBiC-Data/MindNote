@@ -50,6 +50,7 @@ urls.py에서 'diary/' URL 패턴을 주석 해제하고, 이를 참고해서 vi
 서버를 실행하고 diary/ 로 이동해서 아래처럼 잘 나오는지 확인합니다.
 이제 모든 데이터를 가져와서 보여주도록 작성해봅시다. 데이터베이스로부터 모든 Page 데이터를 가져와서 'object_list'라는 키워드로 page_list 템플릿에 전달하도록 page_list뷰를 변경해 주세요.
 아래를 참고해서 모든 Page 데이터를 출력하도록 page_list.html을 작성해 주세요. 반복 되는 부분을 작성하는 것이 핵심입니다.
+
 <!-- page_list.html -->
 <h2>일기 목록 페이지</h2>
 
@@ -155,6 +156,37 @@ views.py에 info 템플릿을 랜더해서 결과로 돌려주는 info view를 �
 개발 서버를 켜고 일기 목록 보기, 상세 보기, 감정 일기 소개 페이지가 모두 잘 나오는지 확인해 주세요.
 
 **
+일기장 페이지 만들기
+이번에는 일기를 입력할 수 있는 폼을 만들어 보겠습니다. 아래를 참고해서 작성해 주세요.
+models.py를 보면 우리가 작성해야 하는 필드는 총 5개 입니다.
+title = models.CharField(max_length=100)
+content = models.TextField()
+feeling = models.CharField(max_length=80)
+score = models.IntegerField()
+dt_created = models.DateField()
+diary 디렉토리에 forms.py를 생성하고 아래를 참고해서 PageForm을 작성해 주세요.
+from django import forms
+class PageForm(forms.Form):
+    ...
+# 폼 필드 목록
+# 아래를 참고해서 작성해 주세요.
+title -> CharField, 최대 길이 100자, label='제목'
+content -> CharField, widget=forms.Textarea, label='내용'
+feeling -> CharField, 최대 길이 80자, label='감정 상태'
+score -> IntegerField, label='감정 점수'
+dt_created -> DateField, label='날짜'
+
+urls.py로 가서 일기 작성에 해당하는 URL 패턴의 주석을 해제해 주세요.
+views.py에 아래를 참고하여 page_create 뷰를 작성해 주세요.
+from .forms import PageForm # 사용할 form을 가져와야 합니다.
+form = PageForm() # 작성한 폼을 이용해서 form을 생성합니다.
+page_create 뷰는 page_form.html을 랜더 해서 결과로 돌려주는데, 이때 'form'이라는 키워드로 생성한 PageForm을 context로 넘겨주도록 작성해 주세요.
+page_form.html로 가서 p 태그 형식으로 form을 랜더 하도록 작성해 주세요.
+base.html로 가서 일기 쓰기로 이동하는 링크에 page-create를 연결해 주세요.
+개발 서버를 켜고 /diary/로 이동한 후 '일기 쓰기'를 눌러서 아래와 같이 폼이 나오는지 확인합니다. 지금은 아무런 동작을 하지 않아요 ! 입력할 수 있는 폼이 잘 나온다면 ok !
+
+**
+
 
 
 
