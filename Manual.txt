@@ -219,6 +219,60 @@ def page_create(request):
 개발 서버를 켜고 일기 작성 페이지로 이동한 뒤 새로운 일기를 자유롭게 작성해 주세요.
 '작성하기'를 눌러서 새로 쓴 글로 이동하는지 확인해 주세요.
 
+**
+더 간단한 작성 페이지
+아래를 참고해서 모델 폼(Model Form)을 사용해 감정 일기 작성 페이지를 구현해 주세요.
+forms.py에 작성되어 있는 PageForm을 모두 지우고 forms.ModelForm을 상속 받아 PageForm을 작성해 주세요.
+Page 모델을 import 하고 아래를 참고해서 PageForm을 작성해 주세요.
+# PageForm 안쪽에 들어갈 class
+class Meta:
+    model = <사용 할 모델>
+    fields = ['사용 할 필드']
+views.py로 이동해서 아래를 참고해 page_create 뷰를 수정해 주세요.
+def page_create(request):
+    if request.method == 'POST':
+        # 이곳을 수정합니다.
+        return redirect ...
+먼저 request로부터 데이터를 가져와서 PageForm과 바인딩 해주세요.
+form = 바인딩 폼
+form을 이용해 데이터를 저장하고, 저장한 데이터를 new_page라는 변수로 받습니다.
+new_page = form을 이용한 저장 로직
+개발 서버를 켜고 일기 작성 페이지로 들어가 새 글을 작성한 뒤 정상적으로 상세 일기 보기 페이지로 이동하는지 확인해 주세요.
+
+**
+오늘 하루는 유효했나요?
+감정 일기에 다음과 같은 유효성 검사를 추가하려고 합니다. diary 앱 디렉토리 안의 validators.py에 유효성 검사기(validator)를 작성해 주세요
+1. '제목'과 '내용'에는 '#'이 들어갈 수 없습니다.
+2. '감정 상태' 에는 숫자가 들어갈 수 없습니다.
+3. '감정 점수'는 0부터 10사이의 숫자만 들어갈 수 있습니다.
+유효성 검사 함수는 유효성 검사에 실패했을 경우 ValidationError를 발생 시켜야 합니다.
+from django.core.exceptions import ValidationError
+
+ValidationError는 첫번째 파라미터로 에러 메세지를 받습니다.
+ValidationError('error message')
+
+먼저 '#'이 들어있는 지를 검증하는 validate_no_hash 함수를 작성해 주세요.
+def validate_no_hash(value):
+    ...
+    raise ValidationError(...)
+다음으로는 숫자가 들어있는 지를 검증하는 validate_no_numbers 함수를 작성해 주세요.
+.isdigit() 함수는 문자가 숫자 값인지 아닌지를 판단해서
+그 결과를 True, False로 돌려주는 함수입니다.
+for ch in value: # 입력된 문자열을 하나씩 반복하면서
+    # 숫자가 있는지를 체크하면 되겠죠?
+마지막으로 입력된 값이 0부터 10사이의 숫자 인지를 검증하는 validate_score 함수를 작성해 주세요.
+모델 폼을 사용하고 있으므로 models.py로 가서 아래를 참고하여 각 필드 별 알맞은 유효성을 추가해 주세요.
+1. '제목'과 '내용'에는 '#'이 들어갈 수 없습니다.
+2. '감정 상태' 에는 '#'과 숫자가 들어갈 수 없습니다.
+3. '감정 점수'는 0부터 10사이의 숫자만 들어갈 수 있습니다.
+example_field = models.CharField(validators=[validator ...])
+views.py로 가서 아래를 참고하여 데이터가 유효할 때만 저장 로직을 수행하도록 수정해 주세요.
+# 데이터와 폼이 합쳐진 바운드폼으로 데이터가 유효한지 여부를 체크할 수 있습니다.
+form.is_valid()
+데이터가 유효하지 않을 경우에는 입력된 폼 데이터를 다시 page_form 템플릿으로 전달하여 비어 있지 않은 상태에서 데이터를 수정할 수 있도록 작성해 주세요.
+개발 서버를 켜고 각각의 유효성 검증이 잘 동작 하는지 체크해 주세요.
+
+**
 
 
 
