@@ -3,6 +3,9 @@ from .models import Page
 from .forms import PageForm
 
 # Create your views here.
+def index(request):
+    return render(request, 'diary/index.html')
+
 def page_list(request):
     object_list = Page.objects.all()  # 데이터 조회
     return render(request, 'diary/page_list.html', {'object_list': object_list})
