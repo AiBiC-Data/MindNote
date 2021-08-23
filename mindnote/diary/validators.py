@@ -10,5 +10,5 @@ def validate_no_numbers(value):
             raise ValidationError('숫자는 들어갈 수 없습니다.')
 
 def validate_score(value):
-    if value < 0 or value > 10:
-        raise ValidationError('0부터 10사이의 숫자만 입력 가능합니다.')
+    if value < 0 or value > 100:
+        raise ValidationError('0부터 100사이의 숫자만 입력 가능합니다.')

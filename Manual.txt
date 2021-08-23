@@ -365,6 +365,60 @@ page_list 템플릿 아래쪽에 글이 없을 때 보여줄 HTML이 있습니�
 개발 서버를 켜고 데이터를 모두 지운 후 잘 표시 되는지 확인해 주세요.
 
 **
+감정이 뒤죽박죽
+우리가 만든 감정 일기가 잘 동작 하는지 테스트 해보고 싶습니다. 'django-seed'를 사용하여 50개의 무작위 데이터를 생성하고 각 데이터 중 유효성 검증에 맞지 않는 데이터를 수정해 주세요.
+pip를 이용해서 'django-seed'를 설치해 주세요.
+pip install django-seed
+settings.py의 app 목록에 'django_seed'를 추가해 주세요.
+터미널을 열고 30개의 무작위 데이터를 생성해 주세요.
+개발 서버를 켜고 데이터를 확인해 주세요.
+이 중에서 '감정 점수'를 보면 정수형 이긴 하지만 값의 범위가 매우 넓습니다. 이 부분을 아래를 참고해서 0 부터 10 사이의 무작위 정수로 수정해 주세요.
+diary 앱의 validate_data.py에 page 데이터를 수정하는 'validate_pages' 함수를 작성해 주세요.
+validate_pages 함수는 파라미터가 없는 형태 입니다.
+pages라는 변수에 데이터 베이스에서 모든 Page 데이터를 가져와 주세요.
+모든 pages 데이터를 돌면서 page의 score가 0 미만 이거나 10을 초과 한다면 아래를 참고해서 0부터 10사이의 무작위 정수로 값을 바꾼 후 데이터 베이스에 저장하는 로직을 작성해 주세요.
+import random
+value = random.randint(a,b)
+randint 함수는 매개변수로 넘어온 a와 b사이의 무작위 정수를 반환합니다.
+이때 반환하는 범위는 a와 b를 모두 포함한 폐구간(closed interval)입니다. (a<=X<=b)
+터미널을 열고 django shell을 실행 한 뒤 아래를 참고해서 방금 작성한 validate_pages 함수를 실행해 주세요.
+
+ ```python
+ from diary.validate_data import validate_pages
+ ```
+개발 서버를 켜고 정상 적으로 감정 점수가 수정 되었는지 확인해 주세요.
+
+**
+감정이 뒤죽박죽
+우리가 만든 감정 일기가 잘 동작 하는지 테스트 해보고 싶습니다. 'django-seed'를 사용하여 50개의 무작위 데이터를 생성하고 각 데이터 중 유효성 검증에 맞지 않는 데이터를 수정해 주세요.
+pip를 이용해서 'django-seed'를 설치해 주세요.
+-> pip install django-seed
+settings.py의 app 목록에 'django_seed'를 추가해 주세요.
+터미널을 열고 30개의 무작위 데이터를 생성해 주세요.
+개발 서버를 켜고 데이터를 확인해 주세요.
+이 중에서 '감정 점수'를 보면 정수형 이긴 하지만 값의 범위가 매우 넓습니다. 이 부분을 아래를 참고해서 0 부터 10 사이의 무작위 정수로 수정해 주세요.
+diary 앱의 validate_data.py에 page 데이터를 수정하는 'validate_pages' 함수를 작성해 주세요.
+validate_pages 함수는 파라미터가 없는 형태 입니다.
+pages라는 변수에 데이터 베이스에서 모든 Page 데이터를 가져와 주세요.
+모든 pages 데이터를 돌면서 page의 score가 0 미만 이거나 10을 초과 한다면 아래를 참고해서 0부터 10사이의 무작위 정수로 값을 바꾼 후 데이터 베이스에 저장하는 로직을 작성해 주세요.
+import random
+value = random.randint(a,b)
+randint 함수는 매개변수로 넘어온 a와 b사이의 무작위 정수를 반환합니다.
+이때 반환하는 범위는 a와 b를 모두 포함한 폐구간(closed interval)입니다. (a<=X<=b)
+터미널을 열고 django shell을 실행 한 뒤 아래를 참고해서 방금 작성한 validate_pages 함수를 실행해 주세요.
+ ```python
+ from diary.validate_data import validate_pages
+ ```
+개발 서버를 켜고 정상 적으로 감정 점수가 수정 되었는지 확인해 주세요.
+
+**
+
+
+
+
+
+
+
 
 
 
