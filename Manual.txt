@@ -412,16 +412,64 @@ randint 함수는 매개변수로 넘어온 a와 b사이의 무작위 정수를 
 개발 서버를 켜고 정상 적으로 감정 점수가 수정 되었는지 확인해 주세요.
 
 **
+감정 나눠 담기
+지금은 하나의 페이지에 너무 많은 일기가 나오고 있어요. 아래를 참고해서 한 페이지에 8개씩 일기가 나누어 나오도록 페이지네이션(Pagination)을 구현해 주세요.
 
+view 구현하기
 
+먼저 django로 부터 paginator를 가져옵니다.
+from django.core.paginator import Paginator
+page_list 뷰에 조회한 모든 데이터를 이용해서 Paginator를 생성합니다.
+paginator = Paginator(<페이지네이션을 구현할 데이터>, <한 페이지에 보여줄 개수>)
+현재 들어온 요청(request)의 쿼리스트링으로 부터 보여줄 페이지의 번호를 가져와 주세요. 쿼리스트링의 페이지 번호에 대한 키워드 값은 'page' 입니다.
+request.GET.get('<keyword>')
+가져온 페이지 번호가 None 이라면 조회할 페이지 가 첫 페이지가 되도록 페이지 번호가 1이 되도록 작성해 주세요.
+def page_list(request):
+    object_list = Page.objects.all()
+    paginator = # Paginator 생성
+    curr_page_num = # 쿼리스트링에서 가져온 현재 페이지 번호
+        if <가져온 페이지 번호가 None이라면>:
+            <첫 페이지가 되도록 합니다.>
+    return render(request, 'diary/page_list.html', {'object_list': object_list})
+페이지네이터로 부터 보여줄 페이지를 가져와 주세요.
+<paginator>.page(<조회할 페이지 번호>)
+기존의 모든 데이터(object_list) 대신 Paginator에서 가져온 현재 페이지를 템플릿으로 넘겨주세요. 이때 키워드는 'page'를 사용해 주세요.
 
+Template 구현하기
 
+object_list 대신 뷰에서 넘어온 page안에 데이터가 있는지 여부로 수정해 주세요.
+<현재 페이지>.object_list
+object_list 대신 page안의 데이터를 사용하도록 수정해 주세요.
+페이지네이터를 구현합니다. 페이지 하단의 comments를 복사해서 붙여 넣어 사용해 주세요.
 
+이전 페이지 구현하기
+현재 페이지 이전의 페이지가 있을 때, 처음으로 가는 링크와 이전 페이지로 가는 링크를 작성해 주세요.
+{% if <현재 페이지>.has_previous %}
+{% endif %}
+쿼리스트링으로 알맞은 페이지 번호를 전달하도록 작성해 주세요.
+쿼리 스트링은 ?로 시작하며 key와 value로 이루어져 있습니다.
+?<key>=<value>
+현재 페이지의 이전 페이지 번호는 'previous_page_number'를 이용하면 됩니다.
+{{ <현재 페이지>.previous_page_number }}
 
+현재 페이지 구현하기
+현재 페이지 번호와 전체 페이지 번호를 이용해서 작성해 주세요.
+<p> <현재 페이지 번호> of <전체 페이지 번호> </p>
+현재 페이지 번호는 현재 페이지에 'number' 를 이용해서 가져올 수 있습니다.
+<현재 페이지>.number
+전체 페이지 번호는 현재 페이지가 아닌 페이지네이터(paginator)객체를 통해서 가져올 수 있습니다.
+<현재 페이지>.paginator.num_pages
 
+다음 페이지 구현하기
+현재 페이지 다음의 페이지가 있을 때, 다음 페이지로 가는 링크와 마지막 페이지로 가는 링크를 작성해 주세요.
+{% if <현재 페이지>.has_next %}
+{% endif %}
+쿼리스트링으로 알맞은 페이지 번호를 전달하도록 작성해 주세요.
+현재 페이지의 다음 페이지 번호는 'next_page_number'를 이용하면 됩니다.
+{{ <현재 페이지>.next_page_number }}
+개발 서버를 켜고 페이지네이션이 잘 구현 되었는지 확인해 주세요.
 
-
-
+**
 
 
 
