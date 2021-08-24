@@ -547,7 +547,39 @@ urls.py로 가서  page-delete에 대해 함수형 뷰가 아닌 PageDeleteView�
 기존의 page_delete 함수형 뷰를 지우고, 개발 서버를 실행해서 삭제 하기가 잘 동작 하는지 확인해 주세요.
 
 **
+감정 일기 더 간단하게
+아래를 참고하여 각각의 generic view가 가지고 있는 클래스 변수의 기본값을 사용할 수 있도록 작성해 주세요. urls.py와 views.py를 수정합니다.
 
+PageListView에서 삭제할 클래스 변수
+
+template_name, page_kwarg
+아래의 기본값을 참고하여 코드가 정상적으로 동작하도록 작성해 주세요.
+template_name = '<모델명>_list.html'
+page_kwarg = 'page'
+PageDetailView에서 삭제할 클래스 변수
+
+template_name, pk_url_kwarg
+아래의 기본값을 참고하여 코드가 정상적으로 동작하도록 작성해 주세요.
+template_name = '<모델명>_detail.html'
+pk_url_kwarg = 'pk'
+PageCreateView에서 삭제할 클래스 변수
+
+template_name
+아래의 기본값을 참고하여 코드가 정상적으로 동작하도록 작성해 주세요.
+template_name = '<모델명>_form.html'
+PageUpdateView에서 삭제할 클래스 변수
+
+template_name, pk_url_kwarg
+아래의 기본값을 참고하여 코드가 정상적으로 동작하도록 작성해 주세요.
+template_name = '<모델명>_form.html'
+pk_url_kwarg = 'pk'
+PageDeleteView에서 삭제할 클래스 변수
+
+template_name, pk_url_kwarg
+아래의 기본값을 참고하여 코드가 정상적으로 동작하도록 작성해 주세요.
+template_name = '<모델명>_confirm_delete.html'
+pk_url_kwarg = 'pk'
+개발 서버를 켜고 정상적으로 감정 일기가 동작 하는지 확인해 주세요.
 
 
 
