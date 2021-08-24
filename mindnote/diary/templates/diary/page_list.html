@@ -1,12 +1,12 @@
 {% extends './base.html' %}
 
 {% block content %}
-{% if page.object_list %} <!-- 데이터가 있다면, 아래의 HTML이 나옵니다.-->
+{% if page_obj.object_list %} <!-- 데이터가 있다면, 아래의 HTML이 나옵니다.-->
     <div class="wrap-note">
         <div class="note">
             <div class="note-list">
                 <ul>
-                    {% for obj in page.object_list %}
+                    {% for obj in page_obj.object_list %}
                     <li>
                         <a href="{% url 'page-detail' obj.id %}">
                             <div class="date">
@@ -25,7 +25,7 @@
             </div>
             <!--이곳에 페이지네이션을 붙여 넣어줍니다. -->
             <div class="paging">
-                {% if page.has_previous %}
+                {% if page_obj.has_previous %}
                     <a href="?page=1" class="first">처음</a>
                     <a href="?page={{page.previous_page_number}}" class="prev">이전</a>
                 {% endif %}
@@ -33,7 +33,7 @@
                 <span class="page">
                     <p>{{page.number}} of {{page.paginator.num_pages}}</p>
                 </span>
-                {% if page.has_next %}
+                {% if page_obj.has_next %}
                     <a href="?page={{page.next_page_number}}" class="next">다음</a>
                     <a href="?page={{page.paginator.num_pages}}" class="last">마지막</a>
                 {% endif %}

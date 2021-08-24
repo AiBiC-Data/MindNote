@@ -489,8 +489,22 @@ urls.py로 가서  page-create에 대해 함수형 뷰가 아닌 PageCreateView�
 기존의 page_create 함수형 뷰를 지우고, 개발 서버를 실행해서 글 작성이 잘 되는지 확인해 주세요.
 
 **
+List View 적용하기
+아래를 참고해서 page-list 뷰에 Generic을 적용해 주세요.
 
+djagno.views.generic으로 부터 ListView를 import 해주세요.
+ListView를 상속 받아서 PageListView를 정의해 주세요.
+아래의 변수에 알맞은 값을 넣어서 PageListView를 작성해 주세요.
+model = <사용할 모델>
+template_name = <랜더링 할 Template>
+ordering = [<생성일을 최신순으로 정렬>]
+paginate_by = <한 페이지에 보여줄 데이터 수>
+page_kwarg = <쿼리스트링의 페이지 키워드>
+page_list 템플릿에 현재는 'page' 키워드로 부터 object_list를 불러오고 있는데 generic을 이용하면 'page_obj' 키워드를 사용하도록 바꿔 주어야 합니다.
+urls.py로 가서  page-list에 대해 함수형 뷰가 아닌 PageListView를 호출하도록 작성해 주세요.
+기존의 PageList 함수형 뷰를 지우고, 개발 서버를 실행해서 글 목록과 페이지네이션이 잘 나오는지 확인해 주세요.
 
+**
 
 
 

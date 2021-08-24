@@ -2,21 +2,20 @@ from django.shortcuts import render, redirect
 from .models import Page
 from .forms import PageForm
 from django.core.paginator import Paginator
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.urls import reverse
 
 # Create your views here.
 def index(request):
     return render(request, 'diary/index.html')
 
-def page_list(request):
-    object_list = Page.objects.all()
-    paginator = Paginator(object_list, 8)
-    curr_page_num = request.GET.get('page')
-    if curr_page_num is None:
-        curr_page_num = 1
-    page = paginator.page(curr_page_num) # Paginator로 부터 하나의 페이지를 가져옵니다.
-    return render(request, 'diary/page_list.html', {'page': page}) # 이제는 페이지를 넘겨줍니다.
+class PageListView(ListView):
+    model = Page
+    template_name = 'diary/page_list.html'
+    ordering = ['-dt_created']
+    paginate_by = 8
+    page_kwarg = 'page'
+
 
 def page_detail(request, page_id):
     object = Page.objects.get(id=page_id)
