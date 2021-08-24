@@ -470,10 +470,25 @@ object_list 대신 page안의 데이터를 사용하도록 수정해 주세요.
 개발 서버를 켜고 페이지네이션이 잘 구현 되었는지 확인해 주세요.
 
 **
+Create View 적용하기
+아래를 참고해서 page-create 뷰에 Generic을 적용해 주세요.
 
+django.views.generic으로 부터 CreateView를 import 해주세요.
+CreateView를 상속 받아서 PageCreateView를 정의해 주세요.
+이전의 page_create 뷰를 참고하여 아래의 변수에 알맞은 값을 넣어서 PageCreateView를 작성해 주세요.
+model = <사용할 모델>
+form_class = <사용할 Form>
+template_name = <랜더링 할 Template>
+아래 메소드는 정상적으로 일기 작성이 된 후, 이동할 URL을 제공하는 기능을 합니다. 
+작성이 된 후 작성된 일기를 볼 수 있는 상세 보기 페이지로 이동하도록 알맞은 값으로 get_success_url 을 PageCreateView에 작성해 주세요.
+from django.urls import reverse
+def get_success_url(self):
+        # self.object는 이 CreateView에서 새로 생성한 데이터 모델을 말합니다.
+        return reverse('<이동할 URL>', kwargs={'<URL에 전달할 키워드>': <전달할 값>})
+urls.py로 가서  page-create에 대해 함수형 뷰가 아닌 PageCreateView를 사용하도록 작성해 주세요.
+기존의 page_create 함수형 뷰를 지우고, 개발 서버를 실행해서 글 작성이 잘 되는지 확인해 주세요.
 
-
-
+**
 
 
 
