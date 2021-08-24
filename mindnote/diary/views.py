@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 from .models import Page
 from .forms import PageForm
 from django.core.paginator import Paginator
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.urls import reverse
 
 # Create your views here.
 def index(request):
     return render(request, 'diary/index.html')
+
+def info(request):
+    return render(request, 'diary/info.html')
 
 class PageListView(ListView):
     model = Page
@@ -16,14 +19,10 @@ class PageListView(ListView):
     paginate_by = 8
     page_kwarg = 'page'
 
-
-def page_detail(request, page_id):
-    object = Page.objects.get(id=page_id)
-    return render(request, 'diary/page_detail.html', {'object': object})
-
-def info(request):
-    return render(request, 'diary/info.html')
-
+class PageDetailView(DetailView):
+    model = Page
+    template_name = 'diary/page_detail.html'
+    pk_url_kwarg = 'page_id'
 
 class PageCreateView(CreateView):
     model = Page
@@ -33,24 +32,19 @@ class PageCreateView(CreateView):
     def get_success_url(self):
         return reverse('page-detail', kwargs={'page_id': self.object.id})
 
-def page_update(request, page_id):
-    object = Page.objects.get(id=page_id)
-    if request.method == 'POST':
-        form = PageForm(request.POST, instance=object)
-        if form.is_valid():
-            form.save()
-            return redirect('page-detail', page_id=object.id)
-    else:
-        form = PageForm(instance=object)
-    return render(request, 'diary/page_form.html', {'form': form})
+class PageUpdateView(UpdateView):
+    model = Page
+    form_class = PageForm
+    template_name = 'diary/page_form.html'
+    pk_url_kwarg = 'page_id'
 
-def page_delete(request, page_id):
-    object = Page.objects.get(id=page_id)
-    if request.method == 'POST':
-        object.delete()
-        return redirect('page-list')
-    else:  # 만약 요청이 GET 방식이라면
-        # page_confirm_delete.html을 랜더해서 돌려주도록 합니다.
-        # 이때 삭제 확인 페이지에서 글의 제목을 보여줄 수 있도록 object를 함께 넘겨줍니다.
-        return render(request, 'diary/page_confirm_delete.html', {'object': object})
+    def get_success_url(self):
+        return reverse('page-detail', kwargs={'page_id': self.object.id})
 
+class PageDeleteView(DeleteView):
+    model = Page
+    template_name = 'diary/page_confirm_delete.html'
+    pk_url_kwarg = 'page_id'
+
+    def get_success_url(self):
+        return reverse('page-list')
